@@ -58,15 +58,13 @@ optional<shared_ptr<Node>> best_first_search(const shared_ptr<Problem> problem, 
 
     unordered_map<string, shared_ptr<Node>> reached { { node->state, node }};
 
-    for(; !frontier.empty(); frontier.pop()) {
+    while(!frontier.empty()) {
         node = frontier.top();
-
-        cout << "(a) state: " << node->state << endl;
+        frontier.pop();
 
         if(problem->goal_node()->state == node->state) return node;
 
         for (const shared_ptr<Node> &child : expand(problem, node)) {
-            cout << "(b) child state: " << child->state << endl;
             if(!reached.contains(child->state) || child->path_cost < reached[child->state]->path_cost) {
                 reached[child->state] = child;
                 frontier.push(child);
@@ -74,7 +72,6 @@ optional<shared_ptr<Node>> best_first_search(const shared_ptr<Problem> problem, 
         }
     }
 
-    cout << "Reached end of searching..." << endl;
     return std::nullopt;
 }
 
