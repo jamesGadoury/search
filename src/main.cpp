@@ -16,8 +16,8 @@ struct Node {
 
 class Problem {
 public:
-    virtual shared_ptr<Node> initial() const = 0;
-    virtual shared_ptr<Node> goal() const = 0;
+    virtual shared_ptr<Node> initial_node() const = 0;
+    virtual shared_ptr<Node> goal_node() const = 0;
 
     //! @todo iterator instead?
     virtual vector<string> actions(const string &state) const = 0;
@@ -36,8 +36,8 @@ concept ComparesNodes = requires(T t) {
 // Temporary proto code -> state is encoded as a string...
 
 //! @todo make into generator iterator...
-vector<shared_ptr<const Node>> expand(const shared_ptr<Problem> &problem, const shared_ptr<const Node> &node) {
-    vector<shared_ptr<const Node>> nodes;
+vector<shared_ptr<Node>> expand(const shared_ptr<Problem> &problem, const shared_ptr<const Node> &node) {
+    vector<shared_ptr<Node>> nodes;
 
     for (const string &action : problem->actions(node->state)) {
         const string next_state = problem->results(node->state, action);
@@ -49,18 +49,18 @@ vector<shared_ptr<const Node>> expand(const shared_ptr<Problem> &problem, const 
     return nodes;
 }
 
-template<ComparesNodes EvalFunction>
+template<typename EvalFunction>
 optional<shared_ptr<Node>> best_first_search(const shared_ptr<Problem> problem, const EvalFunction evaluation_function) {
-    shared_ptr<Node> node = problem->initial();
+    shared_ptr<Node> node = problem->initial_node();
 
-    priority_queue<shared_ptr<Node>> frontier(evaluation_function);
+    priority_queue<shared_ptr<Node>, vector<shared_ptr<Node>>, EvalFunction> frontier(evaluation_function);
 
     unordered_map<string, shared_ptr<Node>> reached { { node->state, node }};
 
-    while(!frontier.empty()) {
-        node = frontier.pop();
+    for(; !frontier.empty(); frontier.pop()) {
+        node = frontier.top();
 
-        if(problem->goal()->state == node->state) return node;
+        if(problem->goal_node()->state == node->state) return node;
 
         for (const shared_ptr<Node> &child : expand(problem, node)) {
             if(!reached.contains(child->state) || child->path_cost < reached[child->state]->path_cost) {
@@ -72,6 +72,90 @@ optional<shared_ptr<Node>> best_first_search(const shared_ptr<Problem> problem, 
     return std::nullopt;
 }
 
+struct MapEntry {
+    size_t row;
+    size_t col;
+};
+
+struct MapProblemConfig {
+    size_t rows;
+    size_t cols;
+    MapEntry initial;
+    MapEntry goal;
+};
+
+namespace map_actions {
+    static const string NOTHING = "";
+    static const string LEFT = "LEFT";
+    static const string RIGHT = "RIGHT";
+    static const string DOWN = "DOWN";
+    static const string UP = "UP";
+}
+
+class MapProblem : public Problem {
+public:
+    MapProblem(MapProblemConfig config) :
+        config { move(config) }
+    {
+    }
+
+    static string generate_state(const MapEntry &entry) { return to_string(entry.row)+to_string(entry.col); }
+
+    //! @todo really, we should be returning initial state & goal_state... not nodes...
+    shared_ptr<Node> initial_node() const override { return make_shared<Node>(Node{.state=generate_state(config.initial), .parent=nullptr, .action=map_actions::NOTHING, .path_cost=0}); }
+    shared_ptr<Node> goal_node() const override { return make_shared<Node>(Node{.state=generate_state(config.goal), .parent=nullptr, .action=map_actions::NOTHING, .path_cost=0});  }
+
+    //! @todo iterator instead?
+    vector<string> actions(const string &state) const override {
+        const size_t row = atoi(&state[0]);
+        const size_t col = atoi(&state[1]);
+
+        vector<string> actions;
+        if (row > 0) actions.push_back(map_actions::UP);
+        if (row < config.rows) actions.push_back(map_actions::DOWN);
+        if (col > 0) actions.push_back(map_actions::LEFT);
+        if (col < config.cols) actions.push_back(map_actions::UP);
+
+        return actions;
+    }
+
+    string results(const string &state, const string &action) const override {
+        size_t row = atoi(&state[0]);
+        size_t col = atoi(&state[1]);
+
+        if (action == map_actions::UP) {
+            row -= 1;
+        } else if (action == map_actions::DOWN) {
+            row += 1;
+        } else if (action == map_actions::LEFT) {
+            col -= 1;
+        } else if (action == map_actions::RIGHT) {
+            col += 1;
+        }
+
+        return generate_state(MapEntry{.row=row, .col=col});
+    }
+
+    int action_cost(const string &state, const string &action, const string &next_state) const override {
+        return 1;
+    }
+
+private:
+    MapProblemConfig config;
+};
+
 int main(int argc, char *argv[]) {
-    cout << "hello world" << endl;
+    const shared_ptr<Problem> problem = make_shared<MapProblem>(MapProblemConfig{.rows=10,.cols=10,.initial=MapEntry{.row=1,.col=1},.goal=MapEntry{.row=7,.col=5}});
+
+    auto cmp = [](shared_ptr<Node> a, shared_ptr<Node> b) {return a->path_cost < b->path_cost; };
+    auto found_solution = best_first_search(problem, cmp);
+
+    if (!found_solution.has_value()) { 
+        cout << "Failed to find solution." << endl;
+        return -1;
+    } 
+
+    cout << "Found state: " << found_solution.value()->state << endl;
+    cout << "Cost: " << found_solution.value()->path_cost << endl;
+
 }
