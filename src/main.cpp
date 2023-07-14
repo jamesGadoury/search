@@ -54,21 +54,27 @@ optional<shared_ptr<Node>> best_first_search(const shared_ptr<Problem> problem, 
     shared_ptr<Node> node = problem->initial_node();
 
     priority_queue<shared_ptr<Node>, vector<shared_ptr<Node>>, EvalFunction> frontier(evaluation_function);
+    frontier.push(node);
 
     unordered_map<string, shared_ptr<Node>> reached { { node->state, node }};
 
     for(; !frontier.empty(); frontier.pop()) {
         node = frontier.top();
 
+        cout << "(a) state: " << node->state << endl;
+
         if(problem->goal_node()->state == node->state) return node;
 
         for (const shared_ptr<Node> &child : expand(problem, node)) {
+            cout << "(b) child state: " << child->state << endl;
             if(!reached.contains(child->state) || child->path_cost < reached[child->state]->path_cost) {
                 reached[child->state] = child;
+                frontier.push(child);
             }
         }
     }
 
+    cout << "Reached end of searching..." << endl;
     return std::nullopt;
 }
 
@@ -97,6 +103,8 @@ public:
     MapProblem(MapProblemConfig config) :
         config { move(config) }
     {
+        //! @todo current state representation / use doesn't hold well when there are row,col values >= 10... fix that
+        if(config.rows >= 10 || config.cols >= 10) throw runtime_error("We can't handle that noise!");
     }
 
     static string generate_state(const MapEntry &entry) { return to_string(entry.row)+to_string(entry.col); }
@@ -107,21 +115,21 @@ public:
 
     //! @todo iterator instead?
     vector<string> actions(const string &state) const override {
-        const size_t row = atoi(&state[0]);
-        const size_t col = atoi(&state[1]);
+        size_t row = stoi(state.substr(0,1));
+        size_t col = stoi(state.substr(1,1));
 
         vector<string> actions;
         if (row > 0) actions.push_back(map_actions::UP);
         if (row < config.rows) actions.push_back(map_actions::DOWN);
         if (col > 0) actions.push_back(map_actions::LEFT);
-        if (col < config.cols) actions.push_back(map_actions::UP);
+        if (col < config.cols) actions.push_back(map_actions::RIGHT);
 
         return actions;
     }
 
     string results(const string &state, const string &action) const override {
-        size_t row = atoi(&state[0]);
-        size_t col = atoi(&state[1]);
+        size_t row = stoi(state.substr(0,1));
+        size_t col = stoi(state.substr(1,1));
 
         if (action == map_actions::UP) {
             row -= 1;
@@ -145,7 +153,7 @@ private:
 };
 
 int main(int argc, char *argv[]) {
-    const shared_ptr<Problem> problem = make_shared<MapProblem>(MapProblemConfig{.rows=10,.cols=10,.initial=MapEntry{.row=1,.col=1},.goal=MapEntry{.row=7,.col=5}});
+    const shared_ptr<Problem> problem = make_shared<MapProblem>(MapProblemConfig{.rows=9,.cols=9,.initial=MapEntry{.row=1,.col=1},.goal=MapEntry{.row=7,.col=5}});
 
     auto cmp = [](shared_ptr<Node> a, shared_ptr<Node> b) {return a->path_cost < b->path_cost; };
     auto found_solution = best_first_search(problem, cmp);
