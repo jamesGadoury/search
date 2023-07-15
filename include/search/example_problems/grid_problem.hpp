@@ -73,13 +73,8 @@ public:
     {
     }
 
-    //! @todo really, we should be returning initial state & goal_state... not nodes...
-    std::shared_ptr<Node> initial_node() const override {
-        return std::make_shared<Node>(Node {
-            .state = to_state(config.initial),
-            .parent = nullptr,
-            .action = grid_actions::NOTHING,
-            .path_cost = 0});
+    std::string initial_state() const override {
+        return to_state(config.initial);
     }
 
     std::string goal_state() const override { return to_state(config.goal); }
