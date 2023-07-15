@@ -6,7 +6,7 @@ template<IsProblem ProblemInterface>
 std::optional<std::shared_ptr<NodeTemplate<ProblemInterface>>> depth_first_search(const ProblemInterface &problem) {
     const auto compare =
         [](std::shared_ptr<NodeTemplate<ProblemInterface>> a, std::shared_ptr<NodeTemplate<ProblemInterface>> b) {
-            return a->path_cost > b->path_cost;
+            return a->depth > b->depth;
         };
 
     using Compare = decltype(compare);

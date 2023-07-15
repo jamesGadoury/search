@@ -12,6 +12,7 @@ struct NodeTemplate {
     std::shared_ptr<NodeTemplate> parent;
     ProblemInterface::Action action;
     ProblemInterface::ActionCost path_cost;
+    size_t depth;
 };
 
 template <typename T>
