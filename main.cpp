@@ -9,7 +9,7 @@ using namespace search;
 using namespace search::example_problems;
 
 void execute_depth_first_search(const GridProblem &problem) {
-    auto found_solution = depth_first_search(problem);
+    auto found_solution = DepthFirstSearch(problem).search();
 
     if (!found_solution.has_value()) { 
         cout << "Failed to find solution." << endl;
@@ -20,17 +20,17 @@ void execute_depth_first_search(const GridProblem &problem) {
     cout << "Cost: " << found_solution.value()->path_cost << endl;
 }
 
-void execute_uniform_cost_search(const GridProblem &problem) {
-    auto found_solution = uniform_cost_search(problem);
+// void execute_uniform_cost_search(const GridProblem &problem) {
+//     auto found_solution = uniform_cost_search(problem);
 
-    if (!found_solution.has_value()) { 
-        cout << "Failed to find solution." << endl;
-        return;
-    } 
+//     if (!found_solution.has_value()) { 
+//         cout << "Failed to find solution." << endl;
+//         return;
+//     } 
 
-    cout << "Found state: " << found_solution.value()->state << endl;
-    cout << "Cost: " << found_solution.value()->path_cost << endl;
-}
+//     cout << "Found state: " << found_solution.value()->state << endl;
+//     cout << "Cost: " << found_solution.value()->path_cost << endl;
+// }
 
 int main(int, char *[]) {
     const GridProblem problem({
@@ -42,6 +42,6 @@ int main(int, char *[]) {
     cout << "Executing depth first search..." << endl;
     execute_depth_first_search(problem);
 
-    cout << "Executing breadth first search..." << endl;
-    execute_uniform_cost_search(problem);
+    // cout << "Executing breadth first search..." << endl;
+    // execute_uniform_cost_search(problem);
 }
