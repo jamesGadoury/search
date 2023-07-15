@@ -8,7 +8,7 @@ using namespace std;
 using namespace search;
 
 void execute_depth_first_search() {
-    const shared_ptr<MapProblemInterface> problem = make_shared<MapProblem>(MapProblemConfig{.rows=9,.cols=9,.initial=MapEntry{.row=7,.col=2},.goal=MapEntry{.row=0,.col=5}});
+    const MapProblem problem = MapProblem(MapProblemConfig{.rows=9,.cols=9,.initial=MapEntry{.row=7,.col=2},.goal=MapEntry{.row=0,.col=5}});
 
     auto found_solution = depth_first_search(problem);
 
@@ -22,7 +22,7 @@ void execute_depth_first_search() {
 }
 
 void execute_breadth_first_search() {
-    const shared_ptr<MapProblemInterface> problem = make_shared<MapProblem>(MapProblemConfig{.rows=9,.cols=9,.initial=MapEntry{.row=7,.col=2},.goal=MapEntry{.row=0,.col=5}});
+    const MapProblem problem = MapProblem(MapProblemConfig{.rows=9,.cols=9,.initial=MapEntry{.row=7,.col=2},.goal=MapEntry{.row=0,.col=5}});
 
     auto found_solution = breadth_first_search(problem);
 
