@@ -41,9 +41,11 @@ namespace grid_actions {
     static const std::string UP = "UP";
 }
 
+#include <iostream>
 std::string to_state(const GridEntry &entry) {
     std::stringstream ss;
     ss << entry.row << "," << entry.col;
+    // std::cout << ss.str() << std::endl;
     return ss.str();
 }
 
@@ -108,7 +110,7 @@ public:
         return to_state(entry);
     }
 
-    int action_cost(const std::string &state, const std::string &action, const std::string &next_state) const override {
+    int action_cost(const std::string &, const std::string &, const std::string &) const override {
         return 1;
     }
 
