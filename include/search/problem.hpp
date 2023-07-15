@@ -33,8 +33,6 @@ public:
 
 template <typename T>
 concept IsProblem = requires(T t) {
-    // IILE, that only binds to ProblemTemplate<...> specialisations
-    // Including classes derived from them
     []<typename State, typename Action, typename ActionCost>(ProblemInterfaceTemplate<State, Action, ActionCost>&){}(t);
 };
 

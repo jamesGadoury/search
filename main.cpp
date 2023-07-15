@@ -1,4 +1,4 @@
-#include <search/map_problem.hpp>
+#include <search/example_problems/grid_problem.hpp>
 #include <search/depth_first_search.hpp>
 #include <search/breadth_first_search.hpp>
 
@@ -6,14 +6,9 @@
 
 using namespace std;
 using namespace search;
+using namespace search::example_problems;
 
-void execute_depth_first_search() {
-    const MapProblem problem({
-        .rows = 9,
-        .cols = 9,
-        .initial = MapEntry { .row=7, .col=2 },
-        .goal = MapEntry { .row=0, .col=5 }});
-
+void execute_depth_first_search(const GridProblem &problem) {
     auto found_solution = depth_first_search(problem);
 
     if (!found_solution.has_value()) { 
@@ -25,13 +20,7 @@ void execute_depth_first_search() {
     cout << "Cost: " << found_solution.value()->path_cost << endl;
 }
 
-void execute_breadth_first_search() {
-    const MapProblem problem({
-        .rows = 9,
-        .cols = 9,
-        .initial = MapEntry { .row=7, .col=2 },
-        .goal = MapEntry{ .row=0, .col=5 }});
-
+void execute_breadth_first_search(const GridProblem &problem) {
     auto found_solution = breadth_first_search(problem);
 
     if (!found_solution.has_value()) { 
@@ -44,9 +33,15 @@ void execute_breadth_first_search() {
 }
 
 int main(int argc, char *argv[]) {
+    const GridProblem problem({
+        .rows = 100,
+        .cols = 100,
+        .initial = GridEntry { .row=84, .col=99 },
+        .goal = GridEntry { .row=0, .col=5 }});
+
     cout << "Executing depth first search..." << endl;
-    execute_depth_first_search();
+    execute_depth_first_search(problem);
 
     cout << "Executing breadth first search..." << endl;
-    execute_breadth_first_search();
+    execute_breadth_first_search(problem);
 }
