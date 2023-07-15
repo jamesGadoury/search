@@ -2,11 +2,11 @@
 
 namespace search {
 
-template<IsProblem Problem>
-std::optional<std::shared_ptr<typename Problem::Node>> depth_first_search(const std::shared_ptr<Problem> problem) {
+template<IsProblem ProbemInterface>
+std::optional<std::shared_ptr<typename ProbemInterface::Node>> depth_first_search(const std::shared_ptr<ProbemInterface> problem) {
     return best_first_search(
         problem,
-        [](std::shared_ptr<typename Problem::Node> a, std::shared_ptr<typename Problem::Node> b) {return a->path_cost > b->path_cost; }
+        [](std::shared_ptr<typename ProbemInterface::Node> a, std::shared_ptr<typename ProbemInterface::Node> b) {return a->path_cost > b->path_cost; }
     );
 }
 

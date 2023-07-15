@@ -24,10 +24,10 @@ namespace map_actions {
     static const std::string UP = "UP";
 }
 
-class MapProblem : public ProblemTemplate<std::string, int> {
-public:
-    using ProblemType = ProblemTemplate<std::string, int>;
+using MapProblemInterface = ProblemInterfaceTemplate<std::string, int>;
 
+class MapProblem : public MapProblemInterface {
+public:
     MapProblem(MapProblemConfig config) :
         config { std::move(config) }
     {

@@ -7,7 +7,7 @@
 namespace search {
 
 template <typename ActionT, typename ActionCostT>
-class ProblemTemplate {
+class ProblemInterfaceTemplate {
 public:
     using Action = ActionT;
     using ActionCost = ActionCostT;
@@ -34,7 +34,7 @@ template <typename T>
 concept IsProblem = requires(T t) {
     // IILE, that only binds to ProblemTemplate<...> specialisations
     // Including classes derived from them
-    []<typename Action, typename ActionCost>(ProblemTemplate<Action, ActionCost>&){}(t);
+    []<typename Action, typename ActionCost>(ProblemInterfaceTemplate<Action, ActionCost>&){}(t);
 };
 
 }
