@@ -24,7 +24,7 @@ namespace map_actions {
     static const std::string UP = "UP";
 }
 
-using MapProblemInterface = ProblemInterfaceTemplate<std::string, int>;
+using MapProblemInterface = ProblemInterfaceTemplate<std::string, std::string, int>;
 
 class MapProblem : public MapProblemInterface {
 public:
@@ -38,8 +38,15 @@ public:
     static std::string generate_state(const MapEntry &entry) { return std::to_string(entry.row)+std::to_string(entry.col); }
 
     //! @todo really, we should be returning initial state & goal_state... not nodes...
-    std::shared_ptr<Node> initial_node() const override { return std::make_shared<Node>(Node{.state=generate_state(config.initial), .parent=nullptr, .action=map_actions::NOTHING, .path_cost=0}); }
-    std::shared_ptr<Node> goal_node() const override { return std::make_shared<Node>(Node{.state=generate_state(config.goal), .parent=nullptr, .action=map_actions::NOTHING, .path_cost=0});  }
+    std::shared_ptr<Node> initial_node() const override {
+        return std::make_shared<Node>(Node {
+            .state = generate_state(config.initial),
+            .parent = nullptr,
+            .action = map_actions::NOTHING,
+            .path_cost = 0});
+    }
+
+    std::string goal_state() const override { return generate_state(config.goal); }
 
     //! @todo iterator instead?
     std::vector<std::string> actions(const std::string &state) const override {
