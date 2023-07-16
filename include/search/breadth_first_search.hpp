@@ -6,6 +6,10 @@
 
 namespace search {
 
+/**
+ * @note This algorithm is "cost optimal" for problems where all actions have the same cost. It will
+ *       always find the solution with the minimum number of actions.
+*/
 template<IsProblem ProblemInterface>
 std::optional<std::shared_ptr<NodeTemplate<ProblemInterface>>> breadth_first_search(const ProblemInterface &problem) {
     using Node = NodeTemplate<ProblemInterface>;
@@ -14,8 +18,7 @@ std::optional<std::shared_ptr<NodeTemplate<ProblemInterface>>> breadth_first_sea
         .parent = nullptr,
         //! @todo need to have action support "no action"... maybe through optional?
         .action = {},
-        .path_cost = 0,
-        .depth = 0});
+        .path_cost = 0});
     
     std::queue<std::shared_ptr<Node>> frontier;
     frontier.push(node);

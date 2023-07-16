@@ -2,11 +2,14 @@
 
 namespace search {
 
+/**
+ * @note Always expands the deepest node in the frontier first.
+*/
 template<IsProblem ProblemInterface>
 std::optional<std::shared_ptr<NodeTemplate<ProblemInterface>>> depth_first_search(const ProblemInterface &problem) {
     const auto compare =
         [](std::shared_ptr<NodeTemplate<ProblemInterface>> a, std::shared_ptr<NodeTemplate<ProblemInterface>> b) {
-            return a->depth > b->depth;
+            return depth(*a) < depth(*b);
         };
 
     using Compare = decltype(compare);

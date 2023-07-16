@@ -20,15 +20,15 @@ void execute_search_experiment(const GridProblem &problem, const auto search) {
 
     cout << "Found state: " << found_solution.value()->state << endl;
     cout << "Cost: " << found_solution.value()->path_cost << endl;
-    cout << "Depth of search: " << found_solution.value()->depth << endl; 
+    cout << "Depth of search: " << depth(*found_solution.value()) << endl; 
 }
 
 int main(int, char *[]) {
     const GridProblem problem({
-        .rows = 100,
-        .cols = 100,
-        .initial = GridEntry { .row=85, .col=99},
-        .goal = GridEntry { .row=30, .col=5 }});
+        .rows = 3,
+        .cols = 3,
+        .initial = GridEntry { .row=0, .col=0},
+        .goal = GridEntry { .row=2, .col=2 }});
     
     cout << "Executing breadth first search..." << endl;
     execute_search_experiment(problem, breadth_first_search<GridProblem>);

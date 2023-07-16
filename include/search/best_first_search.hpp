@@ -15,8 +15,7 @@ std::optional<std::shared_ptr<Node>> best_first_search(const ProblemInterface &p
         .parent = nullptr,
         //! @todo need to have action support "no action"... maybe through optional?
         .action = {},
-        .path_cost = 0,
-        .depth = 0});
+        .path_cost = 0});
     
     std::priority_queue<std::shared_ptr<Node>, std::vector<std::shared_ptr<Node>>, EvalFunction> frontier(evaluation_function);
     frontier.push(node);

@@ -18,11 +18,17 @@ std::vector<std::shared_ptr<Node>> expand(const ProblemInterface &problem, const
             .state = std::move(next_state),
             .parent = node,
             .action = action,
-            .path_cost = cost,
-            .depth = node->depth+1}));
+            .path_cost = cost}));
     }
 
     return nodes;
+}
+
+template <IsNode Node>
+size_t depth(const Node &node) {
+    size_t depth = 0;
+    for (std::shared_ptr<Node> parent = node.parent; parent != nullptr; parent = parent->parent) depth += 1;
+    return depth;
 }
 
 }
