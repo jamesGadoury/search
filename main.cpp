@@ -24,7 +24,7 @@ void execute_search_experiment(const GridProblem &problem, const auto search) {
     cout << "Depth of search: " << depth(*node) << endl; 
     cout << "Expanded count: " << result.expanded_count << endl;
     cout << "Actions: " << endl;
-    const auto actions = actions_to_node(result.node);
+    const auto actions = actions_to_node(*result.node);
     for (const auto &action : actions) {
         cout << action << endl;
     }

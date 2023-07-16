@@ -42,7 +42,6 @@ namespace grid_actions {
     static const std::string UP = "UP";
 }
 
-#include <iostream>
 std::string to_state(const GridEntry &entry) {
     std::stringstream ss;
     ss << entry.row << "," << entry.col;

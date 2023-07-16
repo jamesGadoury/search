@@ -9,7 +9,7 @@ enum class ProblemStatus {
     Unsolved
 };
 
-template <IsNode Node>
+template <typename Node>
 struct Result {
     ProblemStatus status;
     std::shared_ptr<Node> node;

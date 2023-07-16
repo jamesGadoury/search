@@ -14,8 +14,8 @@ namespace search {
  *       always find the result with the minimum number of actions.
 */
 template<IsProblem ProblemInterface>
-Result<NodeTemplate<ProblemInterface>> breadth_first_search(const ProblemInterface &problem) {
-    using Node = NodeTemplate<ProblemInterface>;
+Result<ProblemNode<ProblemInterface>> breadth_first_search(const ProblemInterface &problem) {
+    using Node = ProblemNode<ProblemInterface>;
 
     std::shared_ptr<Node> node = std::make_shared<Node>(Node {
         .state = problem.initial_state(),

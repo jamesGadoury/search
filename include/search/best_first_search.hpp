@@ -9,8 +9,10 @@
 
 namespace search {
 
-template<IsProblem ProblemInterface, IsNode Node, typename EvalFunction>
-Result<Node> best_first_search(const ProblemInterface &problem, const EvalFunction evaluation_function) {
+template<IsProblem ProblemInterface, typename EvalFunction>
+Result<ProblemNode<ProblemInterface>> best_first_search(const ProblemInterface &problem, const EvalFunction evaluation_function) {
+    using Node = ProblemNode<ProblemInterface>;
+
     std::shared_ptr<Node> node = std::make_shared<Node>(Node {
         .state = problem.initial_state(),
         .parent = nullptr,

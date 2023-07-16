@@ -9,15 +9,16 @@ namespace search {
  *       a tree-like structure instead of graph search (which is more memory efficient).
 */
 template<IsProblem ProblemInterface>
-Result<NodeTemplate<ProblemInterface>> depth_first_search(const ProblemInterface &problem) {
-    using Node = NodeTemplate<ProblemInterface>;
+Result<ProblemNode<ProblemInterface>> depth_first_search(const ProblemInterface &problem) {
+    using Node = ProblemNode<ProblemInterface>;
+
     const auto compare =
         [](std::shared_ptr<Node> a, std::shared_ptr<Node> b) {
             return depth(*a) < depth(*b);
         };
 
     using Compare = decltype(compare);
-    return best_first_search<ProblemInterface, Node, Compare>(
+    return best_first_search<ProblemInterface, Compare>(
         problem,
         compare
     );

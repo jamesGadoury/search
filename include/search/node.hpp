@@ -6,17 +6,23 @@
 
 namespace search {
 
-template <IsProblem ProblemInterface>
+template <typename State, typename Action, typename ActionCost>
 struct NodeTemplate {
-    ProblemInterface::State state;
+    State state;
     std::shared_ptr<NodeTemplate> parent;
-    ProblemInterface::Action action;
-    ProblemInterface::ActionCost path_cost;
+    Action action;
+    ActionCost path_cost;
 };
+
+template <IsProblem ProblemInterface>
+using ProblemNode = NodeTemplate<typename ProblemInterface::State, typename ProblemInterface::Action, typename ProblemInterface::ActionCost>;
 
 template <typename T>
 concept IsNode = requires(T t) {
-    []<IsProblem Problem>(NodeTemplate<Problem>&){}(t);
+    t.state;
+    t.parent;
+    t.action;
+    t.path_cost;
 };
 
 }
