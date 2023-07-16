@@ -11,16 +11,19 @@ using namespace search;
 using namespace search::example_problems;
 
 void execute_search_experiment(const GridProblem &problem, const auto search) {
-    auto found_solution = search(problem);
+    auto solution = search(problem);
 
-    if (!found_solution.has_value()) { 
+    if (solution.status == SolutionStatus::Failed) { 
         cout << "Failed to find solution." << endl;
         return;
     } 
 
-    cout << "Found state: " << found_solution.value()->state << endl;
-    cout << "Cost: " << found_solution.value()->path_cost << endl;
-    cout << "Depth of search: " << depth(*found_solution.value()) << endl; 
+    auto node = solution.node;
+    cout << "Found state: " << node->state << endl;
+    cout << "Cost: " << node->path_cost << endl;
+    cout << "Depth of search: " << depth(*node) << endl; 
+
+    cout << "Expanded count: " << solution.expanded_count;
 }
 
 int main(int, char *[]) {
@@ -33,12 +36,15 @@ int main(int, char *[]) {
     cout << "Executing breadth first search..." << endl;
     execute_search_experiment(problem, breadth_first_search<GridProblem>);
     cout << endl;
+    cout << endl;
 
     cout << "Executing depth first search..." << endl;
     execute_search_experiment(problem, depth_first_search<GridProblem>);
     cout << endl;
+    cout << endl;
 
     cout << "Executing uniform cost search..." << endl;
     execute_search_experiment(problem, uniform_cost_search<GridProblem>);
+    cout << endl;
     cout << endl;
 }

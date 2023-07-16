@@ -1,19 +1,23 @@
+#pragma once
+
 #include "search/best_first_search.hpp"
 
 namespace search {
 
 /**
- * @note Always expands the deepest node in the frontier first.
+ * @note Always expands the deepest node in the frontier first. This version of DFS uses
+ *       a tree-like structure instead of graph search (which is more memory efficient).
 */
 template<IsProblem ProblemInterface>
-std::optional<std::shared_ptr<NodeTemplate<ProblemInterface>>> depth_first_search(const ProblemInterface &problem) {
+Solution<NodeTemplate<ProblemInterface>> depth_first_search(const ProblemInterface &problem) {
+    using Node = NodeTemplate<ProblemInterface>;
     const auto compare =
-        [](std::shared_ptr<NodeTemplate<ProblemInterface>> a, std::shared_ptr<NodeTemplate<ProblemInterface>> b) {
+        [](std::shared_ptr<Node> a, std::shared_ptr<Node> b) {
             return depth(*a) < depth(*b);
         };
 
     using Compare = decltype(compare);
-    return best_first_search<ProblemInterface, NodeTemplate<ProblemInterface>, Compare>(
+    return best_first_search<ProblemInterface, Node, Compare>(
         problem,
         compare
     );

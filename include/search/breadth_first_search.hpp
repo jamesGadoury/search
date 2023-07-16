@@ -1,3 +1,6 @@
+#pragma once
+
+#include "search/solution.hpp"
 #include "search/helpers.hpp"
 
 #include <optional>
@@ -11,8 +14,9 @@ namespace search {
  *       always find the solution with the minimum number of actions.
 */
 template<IsProblem ProblemInterface>
-std::optional<std::shared_ptr<NodeTemplate<ProblemInterface>>> breadth_first_search(const ProblemInterface &problem) {
+Solution<NodeTemplate<ProblemInterface>> breadth_first_search(const ProblemInterface &problem) {
     using Node = NodeTemplate<ProblemInterface>;
+
     std::shared_ptr<Node> node = std::make_shared<Node>(Node {
         .state = problem.initial_state(),
         .parent = nullptr,
@@ -25,12 +29,14 @@ std::optional<std::shared_ptr<NodeTemplate<ProblemInterface>>> breadth_first_sea
 
     std::unordered_map<std::string, std::shared_ptr<Node>> reached { { node->state, node }};
 
+    size_t expanded_count = 0;
     while(!frontier.empty()) {
         node = frontier.front();
         frontier.pop();
 
+        expanded_count += 1;
         for (std::shared_ptr<Node> child : expand(problem, node)) {
-            if(problem.goal_state() == child->state) return child;
+            if(problem.goal_state() == child->state) return {.status=SolutionStatus::Success, .node=child, .expanded_count=expanded_count};
 
             if(!reached.contains(child->state)) {
                 reached[child->state] = child;
@@ -39,7 +45,7 @@ std::optional<std::shared_ptr<NodeTemplate<ProblemInterface>>> breadth_first_sea
         }
     }
 
-    return std::nullopt;
+    return {.status=SolutionStatus::Failed, .node=nullptr, .expanded_count=expanded_count};
 }
 
 }

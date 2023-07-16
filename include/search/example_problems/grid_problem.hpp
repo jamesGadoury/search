@@ -2,8 +2,9 @@
 
 #include "search/problem.hpp"
 
+#include <iostream>
+#include <string>
 #include <sstream>
-    #include <iostream>
 
 namespace search {
 
@@ -45,7 +46,6 @@ namespace grid_actions {
 std::string to_state(const GridEntry &entry) {
     std::stringstream ss;
     ss << entry.row << "," << entry.col;
-    // std::cout << ss.str() << std::endl;
     return ss.str();
 }
 

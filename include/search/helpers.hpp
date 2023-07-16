@@ -3,6 +3,8 @@
 #include "search/node.hpp"
 #include "search/problem.hpp"
 
+#include <vector>
+
 namespace search {
 
 //! @todo make into generator iterator...
