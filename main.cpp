@@ -28,7 +28,7 @@ int main(int, char *[]) {
         .rows = 100,
         .cols = 100,
         .initial = GridEntry { .row=85, .col=99},
-        .goal = GridEntry { .row=0, .col=5 }});
+        .goal = GridEntry { .row=30, .col=5 }});
     
     cout << "Executing breadth first search..." << endl;
     execute_search_experiment(problem, breadth_first_search<GridProblem>);

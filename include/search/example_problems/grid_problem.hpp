@@ -94,7 +94,7 @@ public:
         return actions(to_grid_entry(state));
     }
 
-    std::string results(const std::string &state, const std::string &action) const override {
+    std::string result(const std::string &state, const std::string &action) const override {
         GridEntry entry = to_grid_entry(state);
 
         if (action == grid_actions::UP) entry.row -= 1;

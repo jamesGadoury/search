@@ -11,7 +11,7 @@ std::vector<std::shared_ptr<Node>> expand(const ProblemInterface &problem, const
     std::vector<std::shared_ptr<Node>> nodes;
 
     for (const auto &action : problem.actions(node->state)) {
-        auto next_state = problem.results(node->state, action);
+        auto next_state = problem.result(node->state, action);
         const auto cost = node->path_cost + problem.action_cost(node->state, action, next_state);
 
         nodes.push_back(std::make_shared<Node>(Node {

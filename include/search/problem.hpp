@@ -21,7 +21,7 @@ public:
     //! @todo iterator instead?
     virtual std::vector<Action> actions(const State &state) const = 0;
 
-    virtual State results(const State &state, const Action &action) const = 0;
+    virtual State result(const State &state, const Action &action) const = 0;
 
     virtual ActionCost action_cost(const State &state, const Action &action, const State &next_state) const = 0;
 };

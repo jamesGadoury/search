@@ -26,9 +26,9 @@ std::optional<std::shared_ptr<NodeTemplate<ProblemInterface>>> breadth_first_sea
         node = frontier.front();
         frontier.pop();
 
-        if(problem.goal_state() == node->state) return node;
-
         for (std::shared_ptr<Node> child : expand(problem, node)) {
+            if(problem.goal_state() == child->state) return child;
+
             if(!reached.contains(child->state)) {
                 reached[child->state] = child;
                 frontier.push(child);
