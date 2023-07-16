@@ -7,23 +7,7 @@
 #include <stack>
 #include <unordered_map>
 
-namespace search {
-
-/**
- * @note This algorithm repeatedly applies depth-limited search with increasing limits in an
- *       attempt to combine the benifits of depth-first and breadth-first search.
-*/
-template<IsProblem ProblemInterface>
-Result<ProblemNode<ProblemInterface>> iterative_deepening_search(const ProblemInterface &problem, const std::optional<size_t> cycle_evaluation_depth = std::nullopt) {
-    for (size_t depth_limit = 0;; ++depth_limit) {
-        auto result = depth_limited_search(problem, depth_limit, cycle_evaluation_depth);
-
-        //! @todo Should we make a separate status to delineate between a Cutoff or timeout?
-        if (ProblemStatus::Solved == result.status) {
-            return result;
-        }
-    }
-}
+namespace search::uninformed {
 
 /**
  * @note This algorithm is a tree-like depth first search with a limited depth value to specify cutoff.
@@ -62,6 +46,22 @@ Result<ProblemNode<ProblemInterface>> depth_limited_search(const ProblemInterfac
     }
 
     return {.status=ProblemStatus::Unsolved, .node=nullptr, .expanded_count=expanded_count};
+}
+
+/**
+ * @note This algorithm repeatedly applies depth-limited search with increasing limits in an
+ *       attempt to combine the benifits of depth-first and breadth-first search.
+*/
+template<IsProblem ProblemInterface>
+Result<ProblemNode<ProblemInterface>> iterative_deepening_search(const ProblemInterface &problem, const std::optional<size_t> cycle_evaluation_depth = std::nullopt) {
+    for (size_t depth_limit = 0;; ++depth_limit) {
+        auto result = depth_limited_search(problem, depth_limit, cycle_evaluation_depth);
+
+        //! @todo Should we make a separate status to delineate between a Cutoff or timeout?
+        if (ProblemStatus::Solved == result.status) {
+            return result;
+        }
+    }
 }
 
 }

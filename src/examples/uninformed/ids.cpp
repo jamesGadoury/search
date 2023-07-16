@@ -1,4 +1,4 @@
-#include <search/iterative_deepening_search.hpp>
+#include <search/uninformed/iterative_deepening_search.hpp>
 #include <search/example_problems/grid_problem.hpp>
 
 #include <iostream>
@@ -6,6 +6,7 @@
 
 using namespace std;
 using namespace search;
+using namespace search::uninformed;
 using namespace search::example_problems;
 
 void execute_search_experiment(const GridProblem &problem) {

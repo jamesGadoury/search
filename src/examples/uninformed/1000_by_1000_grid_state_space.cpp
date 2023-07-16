@@ -1,14 +1,14 @@
 #include <search/example_problems/grid_problem.hpp>
-#include <search/breadth_first_search.hpp>
-#include <search/best_first/breadth_first_search.hpp>
-#include <search/best_first/depth_first_search.hpp>
-#include <search/best_first/uniform_cost_search.hpp>
-
+#include <search/uninformed/breadth_first_search.hpp>
+#include <search/uninformed/best_first/breadth_first_search.hpp>
+#include <search/uninformed/best_first/depth_first_search.hpp>
+#include <search/uninformed/best_first/uniform_cost_search.hpp>
 #include <iostream>
 #include <functional>
 
 using namespace std;
 using namespace search;
+using namespace search::uninformed;
 using namespace search::example_problems;
 
 void execute_search_experiment(const GridProblem &problem, const auto search) {
@@ -33,30 +33,30 @@ void execute_search_experiment(const GridProblem &problem, const auto search) {
 
 int main(int, char *[]) {
     const GridProblem problem({
-        .rows = 6,
-        .cols = 6,
+        .rows = 1000,
+        .cols = 1000,
         .initial = GridEntry { .row=0, .col=0},
-        .goal = GridEntry { .row=4, .col=3 }});
+        .goal = GridEntry { .row=839, .col=943 }});
 
     cout << "Starting state: " << problem.initial_state() << endl;
     cout << "Goal state: " << problem.goal_state() << endl;
 
-    cout << "---------------------------------"  << endl;
-    cout << "Executing breadth_first_search..." << endl;
-    execute_search_experiment(problem, breadth_first_search<GridProblem>);
-    cout << endl;
+    // cout << "---------------------------------"  << endl;
+    // cout << "Executing breadth_first_search..." << endl;
+    // execute_search_experiment(problem, breadth_first_search<GridProblem>);
+    // cout << endl;
 
-    cout << "---------------------------------"  << endl;
-    cout << "Executing best_first::breadth_first_search..." << endl;
-    execute_search_experiment(problem, best_first::breadth_first_search<GridProblem>);
-    cout << endl;
+    // cout << "---------------------------------"  << endl;
+    // cout << "Executing best_first::breadth_first_search..." << endl;
+    // execute_search_experiment(problem, best_first::breadth_first_search<GridProblem>);
+    // cout << endl;
 
-    cout << "---------------------------------"  << endl;
-    cout << "Executing best_first::depth_first_search..." << endl;
-    execute_search_experiment(problem, best_first::depth_first_search<GridProblem>);
-    cout << endl;
-    cout << endl;
-
+    // cout << "---------------------------------"  << endl;
+    // cout << "Executing best_first::depth_first_search..." << endl;
+    // execute_search_experiment(problem, best_first::depth_first_search<GridProblem>);
+    // cout << endl;
+    // cout << endl;
+    
     cout << "---------------------------------"  << endl;
     cout << "Executing best_first::uniform_cost_search..." << endl;
     execute_search_experiment(problem, best_first::uniform_cost_search<GridProblem>);

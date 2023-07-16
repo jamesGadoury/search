@@ -1,9 +1,9 @@
 #pragma once
 
-#include "search/best_first/best_first_search.hpp"
+#include "search/uninformed/best_first/best_first_search.hpp"
 #include "search/node.hpp"
 
-namespace search {
+namespace search::uninformed {
 
 namespace best_first {
 
