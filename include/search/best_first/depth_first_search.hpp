@@ -1,8 +1,10 @@
 #pragma once
 
-#include "search/best_first_search.hpp"
+#include "search/best_first/best_first_search.hpp"
 
 namespace search {
+
+namespace best_first {
 
 /**
  * @note Always expands the deepest node in the frontier first. This version of DFS uses
@@ -22,6 +24,8 @@ Result<ProblemNode<ProblemInterface>> depth_first_search(const ProblemInterface 
         problem,
         compare
     );
+}
+
 }
 
 }

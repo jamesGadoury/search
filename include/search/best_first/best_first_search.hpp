@@ -9,6 +9,8 @@
 
 namespace search {
 
+namespace best_first {
+
 template<IsProblem ProblemInterface, typename EvalFunction>
 Result<ProblemNode<ProblemInterface>> best_first_search(const ProblemInterface &problem, const EvalFunction evaluation_function) {
     using Node = ProblemNode<ProblemInterface>;
@@ -43,6 +45,8 @@ Result<ProblemNode<ProblemInterface>> best_first_search(const ProblemInterface &
     }
 
     return {.status=ProblemStatus::Unsolved, .node=nullptr, .expanded_count=expanded_count};
+}
+
 }
 
 }

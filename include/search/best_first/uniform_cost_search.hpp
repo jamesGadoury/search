@@ -1,9 +1,11 @@
 #pragma once
 
-#include "search/best_first_search.hpp"
+#include "search/best_first/best_first_search.hpp"
 #include "search/node.hpp"
 
 namespace search {
+
+namespace best_first {
 
 /**
  * @note This is Dijkstra's Algorithm, which is useful for when actions in the problem have different costs.
@@ -22,6 +24,8 @@ Result<ProblemNode<ProblemInterface>> uniform_cost_search(const ProblemInterface
         problem,
         compare
     );
+}
+
 }
 
 }

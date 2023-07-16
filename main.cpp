@@ -1,7 +1,7 @@
 #include <search/example_problems/grid_problem.hpp>
 #include <search/breadth_first_search.hpp>
-#include <search/depth_first_search.hpp>
-#include <search/uniform_cost_search.hpp>
+#include <search/best_first/depth_first_search.hpp>
+#include <search/best_first/uniform_cost_search.hpp>
 
 #include <iostream>
 #include <functional>
@@ -47,13 +47,13 @@ int main(int, char *[]) {
 
     cout << "---------------------------------"  << endl;
     cout << "Executing depth first search..." << endl;
-    execute_search_experiment(problem, depth_first_search<GridProblem>);
+    execute_search_experiment(problem, best_first::depth_first_search<GridProblem>);
     cout << endl;
     cout << endl;
 
     cout << "---------------------------------"  << endl;
     cout << "Executing uniform cost search..." << endl;
-    execute_search_experiment(problem, uniform_cost_search<GridProblem>);
+    execute_search_experiment(problem, best_first::uniform_cost_search<GridProblem>);
     cout << endl;
     cout << endl;
 }
