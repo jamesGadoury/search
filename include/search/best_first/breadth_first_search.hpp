@@ -1,20 +1,18 @@
 #pragma once
 
-#include "search/best_first_search.hpp"
-#include "search/node.hpp"
+#include "search/best_first/best_first_search.hpp"
 
 namespace search {
 
-/**
- * @note This is Dijkstra's Algorithm, which is useful for when actions in the problem have different costs.
-*/
+namespace best_first {
+
 template<IsProblem ProblemInterface>
-Result<ProblemNode<ProblemInterface>> uniform_cost_search(const ProblemInterface &problem) {
+Result<ProblemNode<ProblemInterface>> breadth_first_search(const ProblemInterface &problem) {
     using Node = ProblemNode<ProblemInterface>;
 
     const auto compare =
         [](std::shared_ptr<Node> a, std::shared_ptr<Node> b) {
-            return a->path_cost > b->path_cost;
+            return depth(*a) > depth(*b);
         };
 
     using Compare = decltype(compare);
@@ -22,6 +20,8 @@ Result<ProblemNode<ProblemInterface>> uniform_cost_search(const ProblemInterface
         problem,
         compare
     );
+}
+
 }
 
 }
