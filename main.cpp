@@ -1,47 +1,59 @@
 #include <search/example_problems/grid_problem.hpp>
-#include <search/depth_first_search.hpp>
 #include <search/breadth_first_search.hpp>
+#include <search/depth_first_search.hpp>
+#include <search/uniform_cost_search.hpp>
 
 #include <iostream>
+#include <functional>
 
 using namespace std;
 using namespace search;
 using namespace search::example_problems;
 
-void execute_depth_first_search(const GridProblem &problem) {
-    auto found_solution = depth_first_search(problem);
+void execute_search_experiment(const GridProblem &problem, const auto search) {
+    auto result = search(problem);
 
-    if (!found_solution.has_value()) { 
-        cout << "Failed to find solution." << endl;
+    if (result.status != ProblemStatus::Solved) { 
+        cout << "Unsolved to find result." << endl;
         return;
     } 
 
-    cout << "Found state: " << found_solution.value()->state << endl;
-    cout << "Cost: " << found_solution.value()->path_cost << endl;
+    auto node = result.node;
+    cout << "Found state: " << node->state << endl;
+    cout << "Cost: " << node->path_cost << endl;
+    cout << "Depth of search: " << depth(*node) << endl; 
+    cout << "Expanded count: " << result.expanded_count << endl;
+    cout << "Actions: " << endl;
+    const auto actions = actions_to_node(*result.node);
+    for (const auto &action : actions) {
+        cout << action << endl;
+    }
 }
 
-void execute_breadth_first_search(const GridProblem &problem) {
-    auto found_solution = breadth_first_search(problem);
-
-    if (!found_solution.has_value()) { 
-        cout << "Failed to find solution." << endl;
-        return;
-    } 
-
-    cout << "Found state: " << found_solution.value()->state << endl;
-    cout << "Cost: " << found_solution.value()->path_cost << endl;
-}
-
-int main(int argc, char *argv[]) {
+int main(int, char *[]) {
     const GridProblem problem({
-        .rows = 100,
-        .cols = 100,
-        .initial = GridEntry { .row=84, .col=99 },
-        .goal = GridEntry { .row=0, .col=5 }});
+        .rows = 6,
+        .cols = 6,
+        .initial = GridEntry { .row=0, .col=0},
+        .goal = GridEntry { .row=4, .col=3 }});
 
-    cout << "Executing depth first search..." << endl;
-    execute_depth_first_search(problem);
+    cout << "Starting state: " << problem.initial_state() << endl;
+    cout << "Goal state: " << problem.goal_state() << endl;
 
+    cout << "---------------------------------"  << endl;
     cout << "Executing breadth first search..." << endl;
-    execute_breadth_first_search(problem);
+    execute_search_experiment(problem, breadth_first_search<GridProblem>);
+    cout << endl;
+
+    cout << "---------------------------------"  << endl;
+    cout << "Executing depth first search..." << endl;
+    execute_search_experiment(problem, depth_first_search<GridProblem>);
+    cout << endl;
+    cout << endl;
+
+    cout << "---------------------------------"  << endl;
+    cout << "Executing uniform cost search..." << endl;
+    execute_search_experiment(problem, uniform_cost_search<GridProblem>);
+    cout << endl;
+    cout << endl;
 }

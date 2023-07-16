@@ -1,20 +1,20 @@
 #pragma once
 
 #include "search/best_first_search.hpp"
+#include "search/node.hpp"
 
 namespace search {
 
 /**
- * @note Always expands the deepest node in the frontier first. This version of DFS uses
- *       a tree-like structure instead of graph search (which is more memory efficient).
+ * @note This is Dijkstra's Algorithm, which is useful for when actions in the problem have different costs.
 */
 template<IsProblem ProblemInterface>
-Result<ProblemNode<ProblemInterface>> depth_first_search(const ProblemInterface &problem) {
+Result<ProblemNode<ProblemInterface>> uniform_cost_search(const ProblemInterface &problem) {
     using Node = ProblemNode<ProblemInterface>;
 
     const auto compare =
         [](std::shared_ptr<Node> a, std::shared_ptr<Node> b) {
-            return depth(*a) < depth(*b);
+            return a->path_cost > b->path_cost;
         };
 
     using Compare = decltype(compare);

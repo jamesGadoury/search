@@ -2,8 +2,9 @@
 
 #include "search/problem.hpp"
 
+#include <iostream>
+#include <string>
 #include <sstream>
-    #include <iostream>
 
 namespace search {
 
@@ -71,23 +72,18 @@ public:
     {
     }
 
-    //! @todo really, we should be returning initial state & goal_state... not nodes...
-    std::shared_ptr<Node> initial_node() const override {
-        return std::make_shared<Node>(Node {
-            .state = to_state(config.initial),
-            .parent = nullptr,
-            .action = grid_actions::NOTHING,
-            .path_cost = 0});
+    std::string initial_state() const override {
+        return to_state(config.initial);
     }
 
     std::string goal_state() const override { return to_state(config.goal); }
 
     std::vector<std::string> actions(const GridEntry &entry) const {
         std::vector<std::string> actions;
-        if (entry.row > 0) actions.push_back(grid_actions::UP);
-        if (entry.row < config.rows) actions.push_back(grid_actions::DOWN);
+        if (entry.row > 0) actions.push_back(grid_actions::DOWN);
+        if (entry.row < config.rows - 1) actions.push_back(grid_actions::UP);
         if (entry.col > 0) actions.push_back(grid_actions::LEFT);
-        if (entry.col < config.cols) actions.push_back(grid_actions::RIGHT);
+        if (entry.col < config.cols - 1) actions.push_back(grid_actions::RIGHT);
 
         return actions;
     }
@@ -97,18 +93,18 @@ public:
         return actions(to_grid_entry(state));
     }
 
-    std::string results(const std::string &state, const std::string &action) const override {
+    std::string result(const std::string &state, const std::string &action) const override {
         GridEntry entry = to_grid_entry(state);
 
-        if (action == grid_actions::UP) entry.row -= 1;
-        else if (action == grid_actions::DOWN) entry.row += 1;
+        if (action == grid_actions::UP) entry.row += 1;
+        else if (action == grid_actions::DOWN) entry.row -= 1;
         else if (action == grid_actions::LEFT) entry.col -= 1;
         else if (action == grid_actions::RIGHT) entry.col += 1;
 
         return to_state(entry);
     }
 
-    int action_cost(const std::string &state, const std::string &action, const std::string &next_state) const override {
+    int action_cost(const std::string &, const std::string &, const std::string &) const override {
         return 1;
     }
 

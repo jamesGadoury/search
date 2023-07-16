@@ -13,20 +13,15 @@ public:
     using Action = ActionT;
     using ActionCost = ActionCostT;
 
-    struct Node {
-        State state;
-        std::shared_ptr<Node> parent;
-        Action action;
-        ActionCost path_cost;
-    };
+    virtual ~ProblemInterfaceTemplate() = default;
 
-    virtual std::shared_ptr<Node> initial_node() const = 0;
+    virtual State initial_state() const = 0;
     virtual State goal_state() const = 0;
 
     //! @todo iterator instead?
     virtual std::vector<Action> actions(const State &state) const = 0;
 
-    virtual State results(const State &state, const Action &action) const = 0;
+    virtual State result(const State &state, const Action &action) const = 0;
 
     virtual ActionCost action_cost(const State &state, const Action &action, const State &next_state) const = 0;
 };
