@@ -4,39 +4,14 @@
 #include <search/uniform_cost_search.hpp>
 
 #include <iostream>
+#include <functional>
 
 using namespace std;
 using namespace search;
 using namespace search::example_problems;
 
-void execute_breadth_first_search(const GridProblem &problem) {
-    auto found_solution = breadth_first_search(problem);
-
-    if (!found_solution.has_value()) { 
-        cout << "Failed to find solution." << endl;
-        return;
-    } 
-
-    cout << "Found state: " << found_solution.value()->state << endl;
-    cout << "Cost: " << found_solution.value()->path_cost << endl;
-    cout << "Depth of search: " << found_solution.value()->depth << endl; 
-}
-
-void execute_depth_first_search(const GridProblem &problem) {
-    auto found_solution = depth_first_search(problem);
-
-    if (!found_solution.has_value()) { 
-        cout << "Failed to find solution." << endl;
-        return;
-    } 
-
-    cout << "Found state: " << found_solution.value()->state << endl;
-    cout << "Cost: " << found_solution.value()->path_cost << endl;
-    cout << "Depth of search: " << found_solution.value()->depth << endl; 
-}
-
-void execute_uniform_cost_search(const GridProblem &problem) {
-    auto found_solution = uniform_cost_search(problem);
+void execute_search_experiment(const GridProblem &problem, const auto search) {
+    auto found_solution = search(problem);
 
     if (!found_solution.has_value()) { 
         cout << "Failed to find solution." << endl;
@@ -56,11 +31,14 @@ int main(int, char *[]) {
         .goal = GridEntry { .row=0, .col=5 }});
     
     cout << "Executing breadth first search..." << endl;
-    execute_breadth_first_search(problem);
+    execute_search_experiment(problem, breadth_first_search<GridProblem>);
+    cout << endl;
 
     cout << "Executing depth first search..." << endl;
-    execute_depth_first_search(problem);
+    execute_search_experiment(problem, depth_first_search<GridProblem>);
+    cout << endl;
 
-    cout << "Executing breadth first search..." << endl;
-    execute_uniform_cost_search(problem);
+    cout << "Executing uniform cost search..." << endl;
+    execute_search_experiment(problem, uniform_cost_search<GridProblem>);
+    cout << endl;
 }
