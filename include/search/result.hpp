@@ -4,14 +4,14 @@
 
 namespace search {
 
-enum class SolutionStatus {
-    Success,
-    Failed
+enum class ProblemStatus {
+    Solved,
+    Unsolved
 };
 
 template <IsNode Node>
-struct Solution {
-    SolutionStatus status;
+struct Result {
+    ProblemStatus status;
     std::shared_ptr<Node> node;
     size_t expanded_count;
 };

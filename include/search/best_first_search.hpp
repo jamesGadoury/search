@@ -1,7 +1,7 @@
 #pragma once
 
 #include "search/helpers.hpp"
-#include "search/solution.hpp"
+#include "search/result.hpp"
 
 #include <optional>
 #include <queue>
@@ -10,7 +10,7 @@
 namespace search {
 
 template<IsProblem ProblemInterface, IsNode Node, typename EvalFunction>
-Solution<Node> best_first_search(const ProblemInterface &problem, const EvalFunction evaluation_function) {
+Result<Node> best_first_search(const ProblemInterface &problem, const EvalFunction evaluation_function) {
     std::shared_ptr<Node> node = std::make_shared<Node>(Node {
         .state = problem.initial_state(),
         .parent = nullptr,
@@ -29,7 +29,7 @@ Solution<Node> best_first_search(const ProblemInterface &problem, const EvalFunc
         node = frontier.top();
         frontier.pop();
 
-        if(problem.goal_state() == node->state) return {.status=SolutionStatus::Success, .node=node, .expanded_count=expanded_count};
+        if(problem.goal_state() == node->state) return {.status=ProblemStatus::Solved, .node=node, .expanded_count=expanded_count};
 
         expanded_count += 1;
         for (std::shared_ptr<Node> child : expand(problem, node)) {
@@ -40,7 +40,7 @@ Solution<Node> best_first_search(const ProblemInterface &problem, const EvalFunc
         }
     }
 
-    return {.status=SolutionStatus::Failed, .node=nullptr, .expanded_count=expanded_count};
+    return {.status=ProblemStatus::Unsolved, .node=nullptr, .expanded_count=expanded_count};
 }
 
 }

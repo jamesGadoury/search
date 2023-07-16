@@ -4,6 +4,7 @@
 #include "search/problem.hpp"
 
 #include <vector>
+#include <list>
 
 namespace search {
 
@@ -31,6 +32,13 @@ size_t depth(const Node &node) {
     size_t depth = 0;
     for (std::shared_ptr<Node> parent = node.parent; parent != nullptr; parent = parent->parent) depth += 1;
     return depth;
+}
+
+template <IsNode Node>
+auto actions_to_node(const std::shared_ptr<Node> &node) -> std::list<decltype(node->action)> {
+    std::list<decltype(node->action)> actions { node->action };
+    for (std::shared_ptr<Node> parent = node->parent; parent != nullptr; parent = parent->parent) actions.push_front(parent->action);
+    return actions;
 }
 
 }

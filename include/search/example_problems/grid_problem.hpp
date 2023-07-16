@@ -81,10 +81,10 @@ public:
 
     std::vector<std::string> actions(const GridEntry &entry) const {
         std::vector<std::string> actions;
-        if (entry.row > 0) actions.push_back(grid_actions::UP);
-        if (entry.row < config.rows) actions.push_back(grid_actions::DOWN);
+        if (entry.row > 0) actions.push_back(grid_actions::DOWN);
+        if (entry.row < config.rows - 1) actions.push_back(grid_actions::UP);
         if (entry.col > 0) actions.push_back(grid_actions::LEFT);
-        if (entry.col < config.cols) actions.push_back(grid_actions::RIGHT);
+        if (entry.col < config.cols - 1) actions.push_back(grid_actions::RIGHT);
 
         return actions;
     }
@@ -97,8 +97,8 @@ public:
     std::string result(const std::string &state, const std::string &action) const override {
         GridEntry entry = to_grid_entry(state);
 
-        if (action == grid_actions::UP) entry.row -= 1;
-        else if (action == grid_actions::DOWN) entry.row += 1;
+        if (action == grid_actions::UP) entry.row += 1;
+        else if (action == grid_actions::DOWN) entry.row -= 1;
         else if (action == grid_actions::LEFT) entry.col -= 1;
         else if (action == grid_actions::RIGHT) entry.col += 1;
 

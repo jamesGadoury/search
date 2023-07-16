@@ -1,6 +1,6 @@
 #pragma once
 
-#include "search/solution.hpp"
+#include "search/result.hpp"
 #include "search/helpers.hpp"
 
 #include <optional>
@@ -11,10 +11,10 @@ namespace search {
 
 /**
  * @note This algorithm is "cost optimal" for problems where all actions have the same cost. It will
- *       always find the solution with the minimum number of actions.
+ *       always find the result with the minimum number of actions.
 */
 template<IsProblem ProblemInterface>
-Solution<NodeTemplate<ProblemInterface>> breadth_first_search(const ProblemInterface &problem) {
+Result<NodeTemplate<ProblemInterface>> breadth_first_search(const ProblemInterface &problem) {
     using Node = NodeTemplate<ProblemInterface>;
 
     std::shared_ptr<Node> node = std::make_shared<Node>(Node {
@@ -36,7 +36,7 @@ Solution<NodeTemplate<ProblemInterface>> breadth_first_search(const ProblemInter
 
         expanded_count += 1;
         for (std::shared_ptr<Node> child : expand(problem, node)) {
-            if(problem.goal_state() == child->state) return {.status=SolutionStatus::Success, .node=child, .expanded_count=expanded_count};
+            if(problem.goal_state() == child->state) return {.status=ProblemStatus::Solved, .node=child, .expanded_count=expanded_count};
 
             if(!reached.contains(child->state)) {
                 reached[child->state] = child;
@@ -45,7 +45,7 @@ Solution<NodeTemplate<ProblemInterface>> breadth_first_search(const ProblemInter
         }
     }
 
-    return {.status=SolutionStatus::Failed, .node=nullptr, .expanded_count=expanded_count};
+    return {.status=ProblemStatus::Unsolved, .node=nullptr, .expanded_count=expanded_count};
 }
 
 }
