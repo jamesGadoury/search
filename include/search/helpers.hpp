@@ -5,6 +5,8 @@
 
 #include <vector>
 #include <list>
+#include <set>
+#include <optional>
 
 namespace search {
 
@@ -39,6 +41,26 @@ auto actions_to_node(const Node &node) -> std::list<decltype(node.action)> {
     std::list<decltype(node.action)> actions { node.action };
     for (std::shared_ptr<Node> parent = node.parent; parent != nullptr; parent = parent->parent) actions.push_front(parent->action);
     return actions;
+}
+
+template <IsNode Node>
+bool has_cycle(const Node &node, const std::optional<size_t> evaluation_depth = std::nullopt) {
+    std::set<decltype(node.state)> states { node.state };
+
+    size_t depth = 0;
+    for (std::shared_ptr<Node> parent = node.parent; parent != nullptr; parent = parent->parent, ++depth) {
+        if(evaluation_depth.has_value() && depth > evaluation_depth.value()) {
+            // We've reached how deep we want to look for cycles, so we "estimate" there
+            // aren't any. Likely a consumer has tuned the evaluation_depth if they
+            // are setting it based on the problem's state space.
+            return false;
+        }
+        if (states.contains(parent->state)) {
+            return true;
+        }
+        states.insert(parent->state);
+    };
+    return false;
 }
 
 }

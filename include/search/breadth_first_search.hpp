@@ -36,6 +36,7 @@ Result<ProblemNode<ProblemInterface>> breadth_first_search(const ProblemInterfac
 
         expanded_count += 1;
         for (std::shared_ptr<Node> child : expand(problem, node)) {
+            // We can do an "early goal test"  as part of expansion instead of "late goal test" after we pop a node from the FIFO
             if(problem.goal_state() == child->state) return {.status=ProblemStatus::Solved, .node=child, .expanded_count=expanded_count};
 
             if(!reached.contains(child->state)) {
