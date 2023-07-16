@@ -14,9 +14,9 @@ namespace search {
  *       attempt to combine the benifits of depth-first and breadth-first search.
 */
 template<IsProblem ProblemInterface>
-Result<ProblemNode<ProblemInterface>> iterative_deepening_search(const ProblemInterface &problem) {
-    for (size_t depth = 0;; ++depth) {
-        auto result = depth_limited_search(problem, depth);
+Result<ProblemNode<ProblemInterface>> iterative_deepening_search(const ProblemInterface &problem, const std::optional<size_t> cycle_evaluation_depth = std::nullopt) {
+    for (size_t depth_limit = 0;; ++depth_limit) {
+        auto result = depth_limited_search(problem, depth_limit, cycle_evaluation_depth);
 
         //! @todo Should we make a separate status to delineate between a Cutoff or timeout?
         if (ProblemStatus::Solved == result.status) {
@@ -29,7 +29,7 @@ Result<ProblemNode<ProblemInterface>> iterative_deepening_search(const ProblemIn
  * @note This algorithm is a tree-like depth first search with a limited depth value to specify cutoff.
 */
 template<IsProblem ProblemInterface>
-Result<ProblemNode<ProblemInterface>> depth_limited_search(const ProblemInterface &problem, const size_t depth_limit) {
+Result<ProblemNode<ProblemInterface>> depth_limited_search(const ProblemInterface &problem, const size_t depth_limit, const std::optional<size_t> cycle_evaluation_depth = std::nullopt) {
     using Node = ProblemNode<ProblemInterface>;
 
     std::shared_ptr<Node> node = std::make_shared<Node>(Node {
@@ -53,7 +53,7 @@ Result<ProblemNode<ProblemInterface>> depth_limited_search(const ProblemInterfac
         //        We might want a more expressive ProblemStatus enumeration for this, but for now we just leave it at "Unsolved" and
         //        return the same value at end of function. In this case, we just use the depth limit to see if we even should attempt
         //        to expand, which achieves a similar purpose.
-        if(depth(*node) <= depth_limit && !has_cycle(*node)) {
+        if(depth(*node) <= depth_limit && !has_cycle(*node, cycle_evaluation_depth)) {
             expanded_count += 1;
             for (std::shared_ptr<Node> child : expand(problem, node)) {
                 frontier.push(child);

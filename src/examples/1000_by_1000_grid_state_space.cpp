@@ -3,7 +3,6 @@
 #include <search/best_first/breadth_first_search.hpp>
 #include <search/best_first/depth_first_search.hpp>
 #include <search/best_first/uniform_cost_search.hpp>
-#include <search/iterative_deepening_search.hpp>
 #include <iostream>
 #include <functional>
 
@@ -56,16 +55,10 @@ int main(int, char *[]) {
     // execute_search_experiment(problem, best_first::depth_first_search<GridProblem>);
     // cout << endl;
     // cout << endl;
-
+    
     cout << "---------------------------------"  << endl;
-    cout << "Executing iterative_deepening_search..." << endl;
-    execute_search_experiment(problem, iterative_deepening_search<GridProblem>);
+    cout << "Executing best_first::uniform_cost_search..." << endl;
+    execute_search_experiment(problem, best_first::uniform_cost_search<GridProblem>);
     cout << endl;
     cout << endl;
-
-    // cout << "---------------------------------"  << endl;
-    // cout << "Executing best_first::uniform_cost_search..." << endl;
-    // execute_search_experiment(problem, best_first::uniform_cost_search<GridProblem>);
-    // cout << endl;
-    // cout << endl;
 }
