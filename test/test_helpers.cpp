@@ -43,8 +43,6 @@ TEST_CASE("Testing depth") {
 }
 
 TEST_CASE("Testing actions_to_node") {
-    //! @todo Should actions_to_node not return the action for
-    //        the initial node (since we start there?)?
     const list<int> expected_actions = invoke([]() {
         list<int> expected_actions;
         expected_actions.push_back(1);
