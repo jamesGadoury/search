@@ -5,6 +5,7 @@
 
 #include <vector>
 #include <list>
+#include <set>
 
 namespace search {
 
@@ -39,6 +40,18 @@ auto actions_to_node(const Node &node) -> std::list<decltype(node.action)> {
     std::list<decltype(node.action)> actions { node.action };
     for (std::shared_ptr<Node> parent = node.parent; parent != nullptr; parent = parent->parent) actions.push_front(parent->action);
     return actions;
+}
+
+template <IsNode Node>
+bool has_cycle(const Node &node) {
+    std::set<decltype(node.state)> states { node.state };
+    for (std::shared_ptr<Node> parent = node.parent; parent != nullptr; parent = parent->parent) {
+        if (states.contains(parent->state)) {
+            return true;
+        }
+        states.insert(parent->state);
+    };
+    return false;
 }
 
 }
