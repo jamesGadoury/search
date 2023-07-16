@@ -1,0 +1,5 @@
+#!/bin/bash
+
+cmake -B build/debug -DCMAKE_BUILD_TYPE=DEBUG -S .
+cmake --build build/debug --parallel
+./build/debug/run_tests

@@ -1,0 +1,4 @@
+#!/bin/bash
+
+cmake -B build/release -DCMAKE_BUILD_TYPE=RELEASE -S .
+cmake --build build/release --parallel
