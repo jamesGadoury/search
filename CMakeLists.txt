@@ -16,6 +16,6 @@ target_include_directories(
     "$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>"
 )
 
-add_executable(run_search_example main.cpp)
-target_link_libraries(run_search_example PUBLIC ${PROJECT_NAME})
+add_executable(run_small_state_space_example src/examples/small_state_space.cpp)
+target_link_libraries(run_small_state_space_example PUBLIC ${PROJECT_NAME})
 
