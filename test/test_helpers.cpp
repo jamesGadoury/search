@@ -47,7 +47,6 @@ TEST_CASE("Testing actions_to_node") {
     //        the initial node (since we start there?)?
     const list<int> expected_actions = invoke([]() {
         list<int> expected_actions;
-        expected_actions.push_back(0);
         expected_actions.push_back(1);
         expected_actions.push_back(1);
         return expected_actions;

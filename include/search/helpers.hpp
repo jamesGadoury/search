@@ -39,7 +39,9 @@ size_t depth(const Node &node) {
 template <IsNode Node>
 auto actions_to_node(const Node &node) -> std::list<decltype(node.action)> {
     std::list<decltype(node.action)> actions { node.action };
-    for (std::shared_ptr<Node> parent = node.parent; parent != nullptr; parent = parent->parent) actions.push_front(parent->action);
+    for (std::shared_ptr<Node> parent = node.parent; parent != nullptr; parent = parent->parent)
+        if(parent->parent != nullptr) actions.push_front(parent->action);
+
     return actions;
 }
 
