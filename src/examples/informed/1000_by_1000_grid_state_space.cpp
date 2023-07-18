@@ -60,8 +60,8 @@ int main(int, char *[]) {
     cout << "Goal state: " << problem.goal_state() << endl;
     
     cout << "---------------------------------"  << endl;
-    cout << "Executing best_first::uniform_cost_search..." << endl;
-    execute_uninformed_search_experiment(problem, best_first::uniform_cost_search<GridProblem>);
+    cout << "Executing uniform_cost_search..." << endl;
+    execute_uninformed_search_experiment(problem, uniform_cost_search<GridProblem>);
     cout << endl;
     cout << endl;
 

@@ -7,9 +7,7 @@
 #include <queue>
 #include <unordered_map>
 
-namespace search::uninformed {
-
-namespace best_first {
+namespace search {
 
 template<IsProblem ProblemInterface, typename EvalFunction>
 Result<ProblemNode<ProblemInterface>> best_first_search(const ProblemInterface &problem, const EvalFunction evaluation_function) {
@@ -45,8 +43,6 @@ Result<ProblemNode<ProblemInterface>> best_first_search(const ProblemInterface &
     }
 
     return {.status=ProblemStatus::Unsolved, .node=nullptr, .expanded_count=expanded_count};
-}
-
 }
 
 }

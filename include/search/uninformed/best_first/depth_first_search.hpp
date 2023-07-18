@@ -1,6 +1,6 @@
 #pragma once
 
-#include "search/uninformed/best_first_search.hpp"
+#include "search/best_first_search.hpp"
 
 namespace search::uninformed {
 

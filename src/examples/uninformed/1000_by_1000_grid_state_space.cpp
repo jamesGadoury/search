@@ -53,8 +53,8 @@ int main(int, char *[]) {
     // cout << endl;
     
     cout << "---------------------------------"  << endl;
-    cout << "Executing best_first::uniform_cost_search..." << endl;
-    execute_search_experiment(problem, best_first::uniform_cost_search<GridProblem>);
+    cout << "Executing uniform_cost_search..." << endl;
+    execute_search_experiment(problem, uniform_cost_search<GridProblem>);
     cout << endl;
     cout << endl;
 }

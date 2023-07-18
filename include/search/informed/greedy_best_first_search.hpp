@@ -1,6 +1,6 @@
 #pragma once
 
-#include "search/uninformed/best_first_search.hpp"
+#include "search/best_first_search.hpp"
 
 #include <functional>
 
@@ -20,7 +20,7 @@ Result<ProblemNode<ProblemInterface>> greedy_best_first_search(
         };
 
     using Compare = decltype(compare);
-    return uninformed::best_first::best_first_search<ProblemInterface, Compare>(
+    return best_first_search<ProblemInterface, Compare>(
         problem,
         compare
     );

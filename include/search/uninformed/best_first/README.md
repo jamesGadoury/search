@@ -1,6 +1,6 @@
 # best_first
 
-This namespace is mainly for example. Many search algorithms can be implemented in the context of "best first search" through customizing a sorting function f for a priority queue and calling best_first_search. The algorithms within this namespace may have more optimal variations that are implemented elsewhere, and this namespace is used a simple baseline reference of that algorithm (for example breadth_first_search).
+This namespace is mainly for example. Many search algorithms (including uninformed ones) can be implemented in the context of "best first search" through customizing a sorting function f for a priority queue and calling best_first_search. The uninformed algorithms within this namespace may have more optimal variations that are implemented elsewhere, and this namespace is used a simple baseline reference of that algorithm (for example breadth_first_search).
 
 You may notice that it seems the compare methods to define that sorting function are somewhat counter intuitive, that is due to how stl's [priority queue](https://en.cppreference.com/w/cpp/container/priority_queue) works:
 
