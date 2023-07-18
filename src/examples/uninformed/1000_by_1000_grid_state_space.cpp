@@ -2,7 +2,7 @@
 #include <search/uninformed/breadth_first_search.hpp>
 #include <search/uninformed/best_first/breadth_first_search.hpp>
 #include <search/uninformed/best_first/depth_first_search.hpp>
-#include <search/uninformed/best_first/uniform_cost_search.hpp>
+#include <search/uninformed/uniform_cost_search.hpp>
 #include <iostream>
 #include <functional>
 
@@ -24,11 +24,6 @@ void execute_search_experiment(const GridProblem &problem, const auto search) {
     cout << "Cost: " << node->path_cost << endl;
     cout << "Depth of solution: " << depth(*node) << endl; 
     cout << "Expanded count in search: " << result.expanded_count << endl;
-    cout << "Actions to get to goal: " << endl;
-    const auto actions = actions_to_node(*result.node);
-    for (const auto &action : actions) {
-        cout << action << endl;
-    }
 }
 
 int main(int, char *[]) {
