@@ -2,7 +2,7 @@
 #include <search/uninformed/breadth_first_search.hpp>
 #include <search/uninformed/best_first/breadth_first_search.hpp>
 #include <search/uninformed/best_first/depth_first_search.hpp>
-#include <search/uninformed/best_first/uniform_cost_search.hpp>
+#include <search/uninformed/uniform_cost_search.hpp>
 #include <iostream>
 #include <functional>
 

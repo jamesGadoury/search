@@ -1,6 +1,6 @@
 #pragma once
 
-#include "search/uninformed/best_first/best_first_search.hpp"
+#include "search/uninformed/best_first_search.hpp"
 
 #include <functional>
 

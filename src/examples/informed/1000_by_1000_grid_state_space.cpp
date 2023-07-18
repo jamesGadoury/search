@@ -1,6 +1,6 @@
 #include <search/example_problems/grid_problem.hpp>
 #include <search/informed/greedy_best_first_search.hpp>
-#include <search/uninformed/best_first/uniform_cost_search.hpp>
+#include <search/uninformed/uniform_cost_search.hpp>
 
 #include <iostream>
 #include <functional>
