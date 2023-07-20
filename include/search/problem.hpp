@@ -18,7 +18,6 @@ public:
     virtual State initial_state() const = 0;
     virtual State goal_state() const = 0;
 
-    //! @todo iterator instead?
     virtual std::vector<Action> actions(const State &state) const = 0;
 
     virtual State result(const State &state, const Action &action) const = 0;

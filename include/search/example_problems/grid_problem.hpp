@@ -88,7 +88,6 @@ public:
         return actions;
     }
 
-    //! @todo iterator instead?
     std::vector<std::string> actions(const std::string &state) const override {
         return actions(to_grid_entry(state));
     }
