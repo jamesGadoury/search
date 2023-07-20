@@ -1,4 +1,5 @@
 #include <search/example_problems/grid_problem.hpp>
+#include <search/informed/a_star_search.hpp>
 #include <search/informed/greedy_best_first_search.hpp>
 #include <search/uninformed/uniform_cost_search.hpp>
 
@@ -68,6 +69,12 @@ int main(int, char *[]) {
     cout << "---------------------------------"  << endl;
     cout << "Executing greedy_best_first_search..." << endl;
     execute_informed_search_experiment(problem, greedy_best_first_search<GridProblem>);
+    cout << endl;
+    cout << endl;
+
+    cout << "---------------------------------"  << endl;
+    cout << "Executing a_star_search..." << endl;
+    execute_informed_search_experiment(problem, a_star_search<GridProblem>);
     cout << endl;
     cout << endl;
 }
