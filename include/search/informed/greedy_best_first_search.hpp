@@ -13,16 +13,11 @@ Result<ProblemNode<ProblemInterface>> greedy_best_first_search(
 ) {
     using Node = ProblemNode<ProblemInterface>;
 
-    //! @todo should best_first_search take the heuristic and just reverse it (so that consumer side makes more sense?)
-    const auto compare =
-        [&heuristic, &problem](std::shared_ptr<Node> a, std::shared_ptr<Node> b) {
-            return heuristic(problem, *a) > heuristic(problem, *b);
-        };
-
-    using Compare = decltype(compare);
-    return best_first_search<ProblemInterface, Compare>(
+    return best_first_search(
         problem,
-        compare
+        [&heuristic, &problem](const std::shared_ptr<Node> &a, const std::shared_ptr<Node> &b) {
+            return heuristic(problem, *a) < heuristic(problem, *b);
+        }
     );
 }
 

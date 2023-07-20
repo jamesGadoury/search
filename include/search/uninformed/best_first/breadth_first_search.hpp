@@ -10,15 +10,11 @@ template<IsProblem ProblemInterface>
 Result<ProblemNode<ProblemInterface>> breadth_first_search(const ProblemInterface &problem) {
     using Node = ProblemNode<ProblemInterface>;
 
-    const auto compare =
-        [](std::shared_ptr<Node> a, std::shared_ptr<Node> b) {
-            return depth(*a) > depth(*b);
-        };
-
-    using Compare = decltype(compare);
-    return best_first_search<ProblemInterface, Compare>(
+    return best_first_search(
         problem,
-        compare
+        [](const std::shared_ptr<Node> &a, const std::shared_ptr<Node> &b) {
+            return depth(*a) < depth(*b);
+        }
     );
 }
 
