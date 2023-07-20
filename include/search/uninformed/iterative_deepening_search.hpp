@@ -19,7 +19,6 @@ Result<ProblemNode<ProblemInterface>> depth_limited_search(const ProblemInterfac
     std::shared_ptr<Node> node = std::make_shared<Node>(Node {
         .state = problem.initial_state(),
         .parent = nullptr,
-        //! @todo need to have action support "no action"... maybe through optional?
         .action = {},
         .path_cost = 0});
     

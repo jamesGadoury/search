@@ -36,22 +36,6 @@ int main(int, char *[]) {
     cout << "Starting state: " << problem.initial_state() << endl;
     cout << "Goal state: " << problem.goal_state() << endl;
 
-    // cout << "---------------------------------"  << endl;
-    // cout << "Executing breadth_first_search..." << endl;
-    // execute_search_experiment(problem, breadth_first_search<GridProblem>);
-    // cout << endl;
-
-    // cout << "---------------------------------"  << endl;
-    // cout << "Executing best_first::breadth_first_search..." << endl;
-    // execute_search_experiment(problem, best_first::breadth_first_search<GridProblem>);
-    // cout << endl;
-
-    // cout << "---------------------------------"  << endl;
-    // cout << "Executing best_first::depth_first_search..." << endl;
-    // execute_search_experiment(problem, best_first::depth_first_search<GridProblem>);
-    // cout << endl;
-    // cout << endl;
-    
     cout << "---------------------------------"  << endl;
     cout << "Executing uniform_cost_search..." << endl;
     execute_search_experiment(problem, uniform_cost_search<GridProblem>);

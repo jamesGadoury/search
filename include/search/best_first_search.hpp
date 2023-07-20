@@ -6,21 +6,35 @@
 #include <optional>
 #include <queue>
 #include <unordered_map>
+#include <functional>
 
 namespace search {
 
-template<IsProblem ProblemInterface, typename EvalFunction>
-Result<ProblemNode<ProblemInterface>> best_first_search(const ProblemInterface &problem, const EvalFunction evaluation_function) {
+template<IsProblem ProblemInterface>
+using EvalFunction = std::function<bool(const std::shared_ptr<ProblemNode<ProblemInterface>> &, const std::shared_ptr<ProblemNode<ProblemInterface>> &)>;
+
+template<IsProblem ProblemInterface>
+Result<ProblemNode<ProblemInterface>> best_first_search(
+    const ProblemInterface &problem,
+    const EvalFunction<ProblemInterface> evaluation
+) {
     using Node = ProblemNode<ProblemInterface>;
 
     std::shared_ptr<Node> node = std::make_shared<Node>(Node {
         .state = problem.initial_state(),
         .parent = nullptr,
-        //! @todo need to have action support "no action"... maybe through optional?
         .action = {},
         .path_cost = 0});
+
+    const EvalFunction<ProblemInterface> inverse_evaluation = [evaluation](const auto &a, const auto &b) { return evaluation(b, a); };
     
-    std::priority_queue<std::shared_ptr<Node>, std::vector<std::shared_ptr<Node>>, EvalFunction> frontier(evaluation_function);
+    // This may seem counter-intuitive, please read the section of the Compare param here:
+    // https://en.cppreference.com/w/cpp/container/priority_queue
+    // Essentially, we flip the input evaluation_function result so that the items we
+    // want "first" come last in the queue. This makes it so the consumer of the function
+    // can provide an evaluation_function that makes more sense on their end.
+    std::priority_queue<std::shared_ptr<Node>, std::vector<std::shared_ptr<Node>>, EvalFunction<ProblemInterface>> frontier(inverse_evaluation);
+
     frontier.push(node);
 
     std::unordered_map<std::string, std::shared_ptr<Node>> reached { { node->state, node }};

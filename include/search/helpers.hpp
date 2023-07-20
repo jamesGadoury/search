@@ -10,7 +10,6 @@
 
 namespace search {
 
-//! @todo make into generator iterator...
 template <IsProblem ProblemInterface, IsNode Node>
 std::vector<std::shared_ptr<Node>> expand(const ProblemInterface &problem, const std::shared_ptr<Node> &node) {
     std::vector<std::shared_ptr<Node>> nodes;
