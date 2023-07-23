@@ -23,9 +23,6 @@ target_include_directories(
 add_executable(run_small_state_space_example src/examples/uninformed/small_state_space.cpp)
 target_link_libraries(run_small_state_space_example PUBLIC ${PROJECT_NAME})
 
-add_executable(run_1000_by_1000_grid_state_space_example src/examples/uninformed/1000_by_1000_grid_state_space.cpp)
-target_link_libraries(run_1000_by_1000_grid_state_space_example PUBLIC ${PROJECT_NAME})
-
 add_executable(run_ids_example src/examples/uninformed/ids.cpp)
 target_link_libraries(run_ids_example PUBLIC ${PROJECT_NAME})
 

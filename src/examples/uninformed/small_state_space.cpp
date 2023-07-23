@@ -12,24 +12,12 @@ using namespace search;
 using namespace search::uninformed;
 using namespace search::example_problems;
 
-void execute_search_experiment(const GridProblem &problem, const auto search) {
-    auto result = search(problem);
-
-    if (result.status != ProblemStatus::Solved) { 
-        cout << "Unsolved to find result." << endl;
-        return;
-    } 
-
-    auto node = result.node;
-    cout << "Found state: " << node->state << endl;
-    cout << "Cost: " << node->path_cost << endl;
-    cout << "Depth of solution: " << depth(*node) << endl; 
-    cout << "Expanded count in search: " << result.expanded_count << endl;
-    cout << "Actions to get to goal: " << endl;
-    const auto actions = actions_to_node(*result.node);
-    for (const auto &action : actions) {
-        cout << action << endl;
-    }
+ostream &operator<<(ostream &os, const Result<ProblemNode<GridProblem>> &search_result) {
+    return os
+        << "Found state: " << search_result.node->state << endl
+        << "Cost: " << search_result.node->path_cost << endl
+        << "Depth of solution: " << depth(*search_result.node) << endl
+        << "Expanded count in search: " << search_result.expanded_count << endl;
 }
 
 int main(int, char *[]) {
@@ -44,23 +32,23 @@ int main(int, char *[]) {
 
     cout << "---------------------------------"  << endl;
     cout << "Executing breadth_first_search..." << endl;
-    execute_search_experiment(problem, breadth_first_search<GridProblem>);
+    cout << breadth_first_search(problem) << endl;
     cout << endl;
 
     cout << "---------------------------------"  << endl;
     cout << "Executing best_first::breadth_first_search..." << endl;
-    execute_search_experiment(problem, best_first::breadth_first_search<GridProblem>);
+    cout << best_first::breadth_first_search(problem) << endl;
     cout << endl;
 
     cout << "---------------------------------"  << endl;
     cout << "Executing best_first::depth_first_search..." << endl;
-    execute_search_experiment(problem, best_first::depth_first_search<GridProblem>);
+    cout << best_first::depth_first_search(problem) << endl;
     cout << endl;
     cout << endl;
 
     cout << "---------------------------------"  << endl;
     cout << "Executing uniform_cost_search..." << endl;
-    execute_search_experiment(problem, uniform_cost_search<GridProblem>);
+    cout << uniform_cost_search(problem) << endl;
     cout << endl;
     cout << endl;
 }

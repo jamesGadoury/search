@@ -4,6 +4,9 @@ These are some simple implementations / prototypes of some search algorithms. Mu
 
 Potentially, this may become a more stable, performant, and maintained library. Another possibility is this stays as a simple set of examples.
 
+## deps
+- eventpp: https://github.com/wqking/eventpp/tree/master
+
 ## todos
 
 - Implement Bidirectional search

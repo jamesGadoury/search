@@ -26,29 +26,22 @@ void execute_uninformed_search_experiment(const GridProblem &problem, const auto
     cout << "Depth of solution: " << depth(*node) << endl; 
     cout << "Expanded count in search: " << result.expanded_count << endl;
 }
-void execute_informed_search_experiment(const GridProblem &problem, const auto search) {
-    // Using same heuristic for all informed algorithms...
-    static const auto HEURISTIC= [](const GridProblem &problem, const ProblemNode<GridProblem> &node) {
-        // Find distance current state to goal state
+
+ostream &operator<<(ostream &os, const Result<ProblemNode<GridProblem>> &search_result) {
+    return os
+        << "Found state: " << search_result.node->state << endl
+        << "Cost: " << search_result.node->path_cost << endl
+        << "Depth of solution: " << depth(*search_result.node) << endl
+        << "Expanded count in search: " << search_result.expanded_count << endl;
+}
+
+static const function<int(const GridProblem &problem, const ProblemNode<GridProblem> &node)> HEURISTIC =
+    [](const auto &problem, const auto &node) {
         auto current = to_grid_entry(node.state);
         auto goal = to_grid_entry(problem.goal_state());
 
         return abs(static_cast<int>(current.row-goal.row)) + abs(static_cast<int>(current.col-goal.col));
     };
-
-    auto result = search(problem, HEURISTIC);
-
-    if (result.status != ProblemStatus::Solved) { 
-        cout << "Unsolved to find result." << endl;
-        return;
-    } 
-
-    auto node = result.node;
-    cout << "Found state: " << node->state << endl;
-    cout << "Cost: " << node->path_cost << endl;
-    cout << "Depth of solution: " << depth(*node) << endl; 
-    cout << "Expanded count in search: " << result.expanded_count << endl;
-}
 
 int main(int, char *[]) {
     const GridProblem problem({
@@ -62,19 +55,19 @@ int main(int, char *[]) {
     
     cout << "---------------------------------"  << endl;
     cout << "Executing uniform_cost_search..." << endl;
-    execute_uninformed_search_experiment(problem, uniform_cost_search<GridProblem>);
+    cout << uniform_cost_search(problem) << endl;
     cout << endl;
     cout << endl;
 
     cout << "---------------------------------"  << endl;
     cout << "Executing greedy_best_first_search..." << endl;
-    execute_informed_search_experiment(problem, greedy_best_first_search<GridProblem>);
+    cout << greedy_best_first_search(problem, HEURISTIC) << endl;
     cout << endl;
     cout << endl;
 
     cout << "---------------------------------"  << endl;
     cout << "Executing a_star_search..." << endl;
-    execute_informed_search_experiment(problem, a_star_search<GridProblem>);
+    cout << a_star_search(problem, HEURISTIC) << endl;
     cout << endl;
     cout << endl;
 }
