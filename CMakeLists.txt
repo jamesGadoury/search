@@ -29,6 +29,9 @@ target_link_libraries(run_ids_example PUBLIC ${PROJECT_NAME})
 add_executable(run_1000_by_1000_grid_state_space_example src/examples/1000_by_1000_grid_state_space.cpp)
 target_link_libraries(run_1000_by_1000_grid_state_space_example PUBLIC ${PROJECT_NAME})
 
+add_executable(run_a_star_with_events src/examples/a_star_with_events.cpp)
+target_link_libraries(run_a_star_with_events PUBLIC ${PROJECT_NAME})
+
 if(CMAKE_BUILD_TYPE STREQUAL "DEBUG")
     add_executable(run_tests test/test_all.cpp test/test_helpers.cpp test/test_grid_problem.cpp)
     target_link_libraries(run_tests PUBLIC ${PROJECT_NAME})
